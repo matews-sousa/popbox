@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .menu-hamburguer-line {
+        @apply h-1 w-8 my-1 rounded-full bg-white transition transform duration-300;
+      }
+}

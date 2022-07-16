@@ -25,7 +25,7 @@ const MovieInfo = ({ movie }: Props) => {
         transition={{ duration: 1.5 }}
       />
       <motion.div
-        className="absolute top-1/4 max-w-3xl mx-auto px-8"
+        className="absolute top-1/4 max-w-3xl mx-auto px-8 md:p-12"
         initial={{ x: -300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
       >
@@ -33,7 +33,7 @@ const MovieInfo = ({ movie }: Props) => {
           <div className="flex items-center space-x-2">
             <MdStar className="text-yellow-500" /> <span>{movie?.vote_average}</span>
           </div>
-          <div>{movie && convertTime(movie?.runtime)}</div>
+          <div>{movie?.runtime && convertTime(movie?.runtime)}</div>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold">
           {movie?.title} ({movie?.release_date.split("-")[0]})

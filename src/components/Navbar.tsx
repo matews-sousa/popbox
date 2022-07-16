@@ -24,8 +24,10 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="px-12 py-5 flex justify-between border-b-[0.5px] border-gray-700 z-10 fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-30">
-      <h1 className="text-2xl font-bold">PopBox</h1>
+    <nav className="text-white px-8 py-5 flex justify-between border-b-[0.5px] border-gray-700 z-10 fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-30">
+      <Link className="text-2xl font-bold" to="/">
+        PopBox
+      </Link>
       <ul className="flex space-x-5">
         {links.map((link) => (
           <Link

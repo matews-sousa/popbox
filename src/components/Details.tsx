@@ -1,7 +1,7 @@
-import React from "react";
 import { ICast } from "../types/ICast";
 import { IMovie } from "../types/IMovie";
 import { BsPlay, BsSuitHeart } from "react-icons/bs";
+import { motion } from "framer-motion";
 
 interface Props {
   data: IMovie;
@@ -20,15 +20,26 @@ const Details = ({ data, cast }: Props) => {
     <>
       <div className="absolute w-screen h-3/5 top-0 left-0">
         <div className="relative z-10 w-full h-full">
-          <img
+          <motion.img
             src={`http://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
             className="h-full w-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           />
         </div>
         <div className="bg-gradient-to-t from-gray-900 h-full w-full absolute bottom-0 z-10"></div>
       </div>
-      <section className="mt-[300px] relative z-30 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-6 place-content-center">
-        <div className="col-span-1 w-56 md:w-full mx-auto">
+      <motion.section
+        className="mt-[300px] relative z-30 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-6 place-content-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <motion.div
+          className="col-span-1 w-56 md:w-full mx-auto"
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }}
+        >
           <img
             src={`http://image.tmdb.org/t/p/original/${data?.poster_path}`}
             className="rounded-lg"
@@ -46,8 +57,13 @@ const Details = ({ data, cast }: Props) => {
               <span className="text-gray-400">votes</span>
             </p>
           </div>
-        </div>
-        <div className="col-span-1 md:col-span-2 mt-10">
+        </motion.div>
+        <motion.div
+          className="col-span-1 md:col-span-2 mt-10"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }}
+        >
           <h1 className="text-3xl md:text-4xl font-bold">{data?.title}</h1>
           <p className="my-3 text-gray-300">Original title: {data?.original_title}</p>
 
@@ -93,8 +109,13 @@ const Details = ({ data, cast }: Props) => {
               </li>
             </ul>
           </div>
-        </div>
-        <div className="mt-10 col-span-1 md:col-span-3 lg:col-span-1">
+        </motion.div>
+        <motion.div
+          className="mt-10 col-span-1 md:col-span-3 lg:col-span-1"
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }}
+        >
           <h2 className="text-3xl font-bold mb-6">Cast</h2>
           <div>
             <ul className="space-y-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-4">
@@ -113,8 +134,8 @@ const Details = ({ data, cast }: Props) => {
               ))}
             </ul>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
     </>
   );
 };

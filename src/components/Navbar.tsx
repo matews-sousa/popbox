@@ -20,7 +20,7 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="text-white px-8 py-5 flex justify-between border-b-[0.5px] border-gray-700 z-30 fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-30">
+    <nav className="text-white px-8 py-5 flex justify-between border-b-[0.5px] border-gray-700 z-50 fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-50">
       <Link className="text-2xl font-bold" to="/">
         PopBox
       </Link>
@@ -30,7 +30,7 @@ const Navbar = () => {
             className={`font-semibold h-full hover:text-white ${
               location.pathname === link.href
                 ? "text-white border-b-2 border-red-400"
-                : "text-gray-400"
+                : "text-gray-200"
             }`}
             to={link.href}
           >

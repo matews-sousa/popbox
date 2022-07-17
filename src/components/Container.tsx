@@ -29,7 +29,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
       animate="visible"
       exit="exit"
     >
-      <main className="px-12">{children}</main>
+      <main className="px-8 md:px-12">{children}</main>
     </motion.div>
   );
 };

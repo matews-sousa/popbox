@@ -13,5 +13,9 @@ export interface IMovie {
   original_language: string;
   original_title: string;
   genre_ids: number[];
+  genres?: {
+    id: number;
+    name: string;
+  }[];
   runtime: number;
 }

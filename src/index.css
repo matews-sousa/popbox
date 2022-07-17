@@ -7,6 +7,6 @@
         @apply h-1 w-8 my-1 rounded-full bg-white transition transform duration-300;
       }
       body {
-          @apply bg-gray-900;
+          @apply bg-gray-900 overflow-x-hidden;
       }
 }

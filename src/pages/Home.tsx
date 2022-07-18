@@ -1,9 +1,7 @@
 import { useQuery } from "react-query";
-import Card from "../components/Card";
 import Container from "../components/Container";
 import api from "../lib/api";
 import { IMovie } from "../types/IMovie";
-import { motion } from "framer-motion";
 import Loader from "../components/Loader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -63,7 +61,7 @@ const Home = () => {
         </Swiper>
       </div>
       <div className="pt-[550px]">
-        <CardList data={data.results} />
+        <CardList data={data.results} type="movie" />
       </div>
     </Container>
   );

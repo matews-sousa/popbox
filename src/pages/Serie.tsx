@@ -2,15 +2,14 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Container from "../components/Container";
 import api from "../lib/api";
-import { IMovie } from "../types/IMovie";
 import Loader from "../components/Loader";
-import { ICast } from "../types/ICast";
 import Details from "../components/Details";
-import { ISerie } from "../types/ISerie";
+import { ICast } from "../types/ICast";
+import { IMedia } from "../types/IMedia";
 
 const Serie = () => {
   const { id } = useParams();
-  const { data, isLoading } = useQuery<ISerie & IMovie>("serie", async () => {
+  const { data, isLoading } = useQuery<IMedia>("serie", async () => {
     const { data } = await api.get(`/tv/${id}`);
     return data;
   });

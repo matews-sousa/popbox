@@ -1,16 +1,17 @@
 import { ICast } from "../types/ICast";
-import { IMovie } from "../types/IMovie";
 import { BsPlay, BsSuitHeart } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { IMedia } from "../types/IMedia";
 
 interface Props {
-  data: IMovie;
+  data: IMedia;
   cast: ICast[];
 }
 
 const Details = ({ data, cast }: Props) => {
   // convert minutes to hours and minutes
-  const convertMinutes = (minutes: number) => {
+  const convertMinutes = (minutes?: number) => {
+    if (!minutes) return null;
     const hours = Math.floor(minutes / 60);
     const min = minutes % 60;
     return `${hours}h ${min}min`;
@@ -64,8 +65,10 @@ const Details = ({ data, cast }: Props) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold">{data?.title}</h1>
-          <p className="my-3 text-gray-300">Original title: {data?.original_title}</p>
+          <h1 className="text-3xl md:text-4xl font-bold">{data?.title || data?.name}</h1>
+          <p className="my-3 text-gray-300">
+            Original title: {data?.original_title || data?.original_name}
+          </p>
 
           <div className="flex space-x-4 mt-6">
             <button className="px-4 md:px-5 py-2 md:py-3 rounded-full bg-red-500 hover:bg-red-600 hover:shadow-red-600 shadow-md shadow-red-500 flex items-center space-x-2 font-semibold">
@@ -90,14 +93,18 @@ const Details = ({ data, cast }: Props) => {
               </li>
               <div className="w-full h-[1px] bg-gray-500 my-2"></div>
               <li className="grid grid-cols-3">
-                <span className="text-gray-300 font-medium">Runtime</span>
-                <span className="text-gray-500 col-span-2">{convertMinutes(data?.runtime)}</span>
+                <span className="text-gray-300 font-medium">
+                  {data?.runtime ? "Runtime" : "N° of EPs"}
+                </span>
+                <span className="text-gray-500 col-span-2">
+                  {convertMinutes(data?.runtime) || data?.number_of_episodes}
+                </span>
               </li>
               <div className="w-full h-[1px] bg-gray-500 my-2"></div>
               <li className="grid grid-cols-3">
                 <span className="text-gray-300 font-medium">Release date</span>
                 <span className="text-gray-500 col-span-2">
-                  {new Date(data?.release_date).toLocaleDateString()}
+                  {new Date(data?.release_date || data?.first_air_date).toLocaleDateString()}
                 </span>
               </li>
               <div className="w-full h-[1px] bg-gray-500 my-2"></div>

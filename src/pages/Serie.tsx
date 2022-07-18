@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import Container from "../components/Container";
 import api from "../lib/api";
 import Loader from "../components/Loader";
-import Details from "../components/Details";
 import { ICast } from "../types/ICast";
+import Details from "../components/Details";
 import { IMedia } from "../types/IMedia";
 
 const Serie = () => {

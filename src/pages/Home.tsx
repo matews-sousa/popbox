@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import Container from "../components/Container";
 import api from "../lib/api";
 import { IMovie } from "../types/IMovie";
@@ -9,6 +9,10 @@ import { Autoplay } from "swiper";
 import MovieInfo from "../components/MovieInfo";
 import { Link } from "react-router-dom";
 import CardList from "../components/CardList";
+import { useEffect, useState } from "react";
+import Card from "../components/Card";
+import { IMedia } from "../types/IMedia";
+import { useInView } from "react-intersection-observer";
 
 const breakpoints = {
   "360": {
@@ -26,12 +30,29 @@ const breakpoints = {
 };
 
 const Home = () => {
-  const { data, isLoading } = useQuery("home", async () => {
-    const { data } = await api.get("/movie/now_playing");
+  const { ref, inView } = useInView();
+  const {
+    data: popular,
+    isLoading: isLoadingPopular,
+    fetchNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ["popular"],
+    async ({ pageParam = 1 }) => {
+      const { data } = await api.get(`/movie/popular?page=${pageParam}`);
+      return data;
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => allPages.length + 1,
+    },
+  );
+  const { data: nowPlaying, isLoading: isLoadingNowPlaying } = useQuery("now_playing", async () => {
+    const { data } = await api.get(`/movie/now_playing`);
     return data;
   });
 
-  if (isLoading) {
+  if (isLoadingPopular || isLoadingNowPlaying) {
     return (
       <Container>
         <div className="mx-auto w-12 pt-96">
@@ -40,6 +61,12 @@ const Home = () => {
       </Container>
     );
   }
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <Container>
@@ -51,7 +78,7 @@ const Home = () => {
           autoplay={{ delay: 7000, disableOnInteraction: false }}
           modules={[Autoplay]}
         >
-          {data.results.map((movie: IMovie) => (
+          {nowPlaying.results.map((movie: IMovie) => (
             <SwiperSlide key={movie.id} style={{ height: 400 }}>
               <Link to={`/movie/${movie.id}`}>
                 <MovieInfo movie={movie} />
@@ -61,7 +88,9 @@ const Home = () => {
         </Swiper>
       </div>
       <div className="pt-[550px]">
-        <CardList data={data.results} type="movie" />
+        <CardList data={popular} />
+
+        <div className="w-full h-44" ref={ref}></div>
       </div>
     </Container>
   );

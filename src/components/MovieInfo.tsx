@@ -1,5 +1,4 @@
 import { IMovie } from "../types/IMovie";
-import { MdAddCircle, MdPlayArrow, MdStar } from "react-icons/md";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -7,13 +6,6 @@ interface Props {
 }
 
 const MovieInfo = ({ movie }: Props) => {
-  // convert minutes to hours and minutes
-  const convertTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const min = minutes % 60;
-    return `${hours}h ${min}min`;
-  };
-
   return (
     <div className="w-full relative h-full rounded-lg overflow-hidden shadow-xl">
       <motion.img

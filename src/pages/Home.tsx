@@ -10,6 +10,7 @@ import "swiper/css";
 import { Autoplay } from "swiper";
 import MovieInfo from "../components/MovieInfo";
 import { Link } from "react-router-dom";
+import CardList from "../components/CardList";
 
 const breakpoints = {
   "360": {
@@ -31,8 +32,6 @@ const Home = () => {
     const { data } = await api.get("/movie/now_playing");
     return data;
   });
-
-  console.log(data);
 
   if (isLoading) {
     return (
@@ -63,16 +62,8 @@ const Home = () => {
           ))}
         </Swiper>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-[550px]">
-        {data.results.map((movie: IMovie, index: number) => (
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index / 30 }}
-          >
-            <Card movie={movie} key={movie.id} />
-          </motion.div>
-        ))}
+      <div className="pt-[550px]">
+        <CardList data={data.results} />
       </div>
     </Container>
   );

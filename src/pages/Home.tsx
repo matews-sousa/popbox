@@ -52,6 +52,12 @@ const Home = () => {
     return data;
   });
 
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
   if (isLoadingPopular || isLoadingNowPlaying) {
     return (
       <Container>
@@ -61,13 +67,6 @@ const Home = () => {
       </Container>
     );
   }
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView]);
-
   return (
     <Container>
       <div className="absolute top-24 left-0 w-screen">

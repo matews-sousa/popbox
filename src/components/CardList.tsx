@@ -17,11 +17,12 @@ const CardList = ({ data, type }: Props) => {
       {data?.pages.map((page) =>
         page.results.map((media, index) => (
           <motion.div
+            key={media.id}
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index / 30 }}
           >
-            <Card data={media} key={media.id} type={type} />
+            <Card data={media} type={type} />
           </motion.div>
         )),
       )}

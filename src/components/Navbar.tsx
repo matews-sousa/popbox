@@ -24,7 +24,7 @@ const Navbar = () => {
       <Link className="text-2xl font-bold" to="/">
         PopBox
       </Link>
-      <ul className="flex space-x-5">
+      <ul className="space-x-5 hidden md:flex">
         {links.map((link) => (
           <Link
             className={`font-semibold h-full hover:text-white ${

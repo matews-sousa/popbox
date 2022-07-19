@@ -1,8 +1,7 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
-import { MdLocalMovies, MdOutlineMovie, MdPerson } from "react-icons/md";
-import { AnimateSharedLayout, motion } from "framer-motion";
+import { MdLocalMovies, MdOutlineMovie, MdPerson, MdSearch } from "react-icons/md";
+import { AnimateSharedLayout } from "framer-motion";
 import NavLink from "./NavLink";
 
 const links = [
@@ -18,13 +17,13 @@ const links = [
   },
   {
     href: "/tv-series",
-    text: "TV Series",
+    text: "TV",
     icon: <MdOutlineMovie className="w-8 h-8" />,
   },
   {
-    href: "/profile",
-    text: "Profile",
-    icon: <MdPerson className="w-8 h-8" />,
+    href: "/search",
+    text: "Search",
+    icon: <MdSearch className="w-8 h-8" />,
   },
 ];
 

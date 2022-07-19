@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
@@ -15,8 +14,8 @@ const links = [
     text: "TV Series",
   },
   {
-    href: "/my-list",
-    text: "My List",
+    href: "/search",
+    text: "Search",
   },
 ];
 

@@ -6,11 +6,14 @@ import Loader from "../components/Loader";
 import { ICast } from "../types/ICast";
 import Details from "../components/Details";
 import { IMedia } from "../types/IMedia";
+import ImagesList from "../components/ImagesList";
 
 const Movie = () => {
   const { id } = useParams();
   const { data, isLoading } = useQuery<IMedia>("movie", async () => {
-    const { data } = await api.get(`/movie/${id}`);
+    const { data } = await api.get(
+      `/movie/${id}?append_to_response=images,videos&include_image_language=en,null`,
+    );
     return data;
   });
   const { data: cast, isLoading: castLoading } = useQuery<ICast[]>("cast", async () => {
@@ -28,7 +31,13 @@ const Movie = () => {
     );
   }
 
-  return <Container>{data && cast && <Details data={data} cast={cast} />}</Container>;
+  return (
+    <Container>
+      {data && cast && <Details data={data} cast={cast} />}
+      {data?.images.posters && <ImagesList backdrops={data.images.posters} />}
+      {data?.images.backdrops && <ImagesList backdrops={data.images.backdrops} />}
+    </Container>
+  );
 };
 
 export default Movie;

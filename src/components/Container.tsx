@@ -23,7 +23,7 @@ const containerVariants = {
 const Container = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
-      className="bg-gray-900 min-h-screen min-w-screen text-white"
+      className="min-h-screen min-w-screen text-white"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

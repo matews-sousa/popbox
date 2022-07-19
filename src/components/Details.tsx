@@ -31,7 +31,7 @@ const Details = ({ data, cast }: Props) => {
         <div className="bg-gradient-to-t from-gray-900 h-full w-full absolute bottom-0 z-10"></div>
       </div>
       <motion.section
-        className="mt-[300px] relative z-30 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-6 place-content-center"
+        className="pt-[300px] relative z-30 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 md:gap-6 place-content-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >

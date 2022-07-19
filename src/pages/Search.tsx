@@ -52,7 +52,7 @@ const Search = () => {
         <form className="flex mb-6" onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search for a Movie of TV Serie..."
+            placeholder="Search for a Movie or TV Serie..."
             className="input input-bordered rounded-r-none w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}

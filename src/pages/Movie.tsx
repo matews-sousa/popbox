@@ -2,14 +2,14 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Container from "../components/Container";
 import api from "../lib/api";
-import { IMovie } from "../types/IMovie";
 import Loader from "../components/Loader";
 import { ICast } from "../types/ICast";
 import Details from "../components/Details";
+import { IMedia } from "../types/IMedia";
 
 const Movie = () => {
   const { id } = useParams();
-  const { data, isLoading } = useQuery<IMovie>("movie", async () => {
+  const { data, isLoading } = useQuery<IMedia>("movie", async () => {
     const { data } = await api.get(`/movie/${id}`);
     return data;
   });

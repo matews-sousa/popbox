@@ -6,10 +6,12 @@ const variants = {
     y: [0, -30],
     transition: {
       x: {
+        repeatType: "yoyo",
         repeat: Infinity,
         duration: 0.5,
       },
       y: {
+        repeatType: "yoyo",
         repeat: Infinity,
         duration: 0.25,
       },

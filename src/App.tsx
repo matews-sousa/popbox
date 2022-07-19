@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Movie from "./pages/Movie";
+import Movies from "./pages/Movies";
 import Serie from "./pages/Serie";
 import Series from "./pages/Series";
 
@@ -19,6 +20,7 @@ function App() {
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
           <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
           <Route path="/tv-series" element={<Series />} />
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/serie/:id" element={<Serie />} />

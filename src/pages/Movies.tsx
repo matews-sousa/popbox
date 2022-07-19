@@ -7,7 +7,7 @@ import GenresFilter from "../components/GenresFilter";
 import Loader from "../components/Loader";
 import api from "../lib/api";
 
-const Series = () => {
+const Movies = () => {
   const [type, setType] = useState("popular");
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const {
@@ -17,19 +17,24 @@ const Series = () => {
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["tv", type, selectedGenres],
+    ["movies", type, selectedGenres],
     async ({ pageParam = 1 }) => {
-      const { data } = await api.get(`/tv/${type}?page=${pageParam}&with_genres=${selectedGenres}`);
+      const { data } = await api.get(
+        `/movie/${type}?page=${pageParam}&with_genres=${selectedGenres}`,
+      );
       return data;
     },
     {
       getNextPageParam: (lastPage, allPages) => allPages.length + 1,
     },
   );
-  const { data: tvGenres, isLoading: isLoadingTvGenres } = useQuery("tvGenres", async () => {
-    const { data } = await api.get("/genre/tv/list");
-    return data.genres;
-  });
+  const { data: movieGenres, isLoading: isLoadingMovieGenres } = useQuery(
+    "movieGenres",
+    async () => {
+      const { data } = await api.get("/genre/movie/list");
+      return data.genres;
+    },
+  );
   const { ref, inView } = useInView();
 
   const handleGenreClick = (genreId: number) => {
@@ -46,7 +51,7 @@ const Series = () => {
     }
   }, [inView]);
 
-  if (isLoadingPopular || isLoadingTvGenres) {
+  if (isLoadingPopular || isLoadingMovieGenres) {
     return (
       <Container>
         <div className="mx-auto w-12 pt-96">
@@ -55,6 +60,7 @@ const Series = () => {
       </Container>
     );
   }
+
   return (
     <Container>
       <div className="pt-32">
@@ -65,20 +71,21 @@ const Series = () => {
             onChange={(e) => setType(e.target.value)}
           >
             <option value="popular">Popular</option>
+            <option value="now_playing">Now Playing</option>
             <option value="top_rated">Top Rated</option>
-            <option value="on_the_air">On the air</option>
+            <option value="upcoming">Upcoming</option>
           </select>
         </div>
         <GenresFilter
-          genres={tvGenres}
+          genres={movieGenres}
           selectedGenres={selectedGenres}
           handleGenreClick={handleGenreClick}
         />
-        {popular && <CardList data={popular} type="serie" />}
+        {popular && <CardList data={popular} type="movie" />}
         <div className="w-full h-44" ref={ref}></div>
       </div>
     </Container>
   );
 };
 
-export default Series;
+export default Movies;

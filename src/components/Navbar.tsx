@@ -4,6 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 const links = [
   {
     href: "/",
+    text: "Home",
+  },
+  {
+    href: "/movies",
     text: "Movies",
   },
   {

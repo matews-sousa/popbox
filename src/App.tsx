@@ -6,6 +6,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Movie from "./pages/Movie";
 import Movies from "./pages/Movies";
+import Search from "./pages/Search";
 import Serie from "./pages/Serie";
 import Series from "./pages/Series";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-series" element={<Series />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/serie/:id" element={<Serie />} />
         </Routes>

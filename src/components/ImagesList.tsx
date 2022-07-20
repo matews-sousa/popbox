@@ -1,17 +1,21 @@
+import React from "react";
 import { IImage } from "../types/IImage";
 import Image from "./Image";
 
 interface Props {
-  backdrops?: IImage[];
+  images?: IImage[];
+  handleImageClick: (src: string) => void;
 }
 
-const ImagesList = ({ backdrops }: Props) => {
+const ImagesList = ({ images, handleImageClick }: Props) => {
   return (
-    <div className="grid grid-cols-4 md:grid-cols-12 gap-2">
-      {backdrops?.map((backdrop) => (
+    <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+      {images?.map((image) => (
         <Image
-          key={backdrop.file_path}
-          src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`}
+          key={image.file_path}
+          src={`https://image.tmdb.org/t/p/original${image.file_path}`}
+          className="cursor-zoom-in"
+          onClick={() => handleImageClick(`https://image.tmdb.org/t/p/original${image.file_path}`)}
         />
       ))}
     </div>

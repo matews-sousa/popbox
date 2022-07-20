@@ -1,4 +1,5 @@
 import { IImage } from "../types/IImage";
+import Image from "./Image";
 
 interface Props {
   backdrops?: IImage[];
@@ -6,13 +7,11 @@ interface Props {
 
 const ImagesList = ({ backdrops }: Props) => {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-4 md:grid-cols-12 gap-2">
       {backdrops?.map((backdrop) => (
-        <img
+        <Image
           key={backdrop.file_path}
           src={`https://image.tmdb.org/t/p/original${backdrop.file_path}`}
-          alt="backdrop"
-          className=""
         />
       ))}
     </div>

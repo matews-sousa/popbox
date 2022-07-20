@@ -29,7 +29,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
       animate="visible"
       exit="exit"
     >
-      <main className="px-8 max-w-7xl mx-auto">{children}</main>
+      <main className="pb-32 px-8 max-w-7xl mx-auto">{children}</main>
     </motion.div>
   );
 };

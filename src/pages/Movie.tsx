@@ -7,6 +7,7 @@ import { ICast } from "../types/ICast";
 import Details from "../components/Details";
 import { IMedia } from "../types/IMedia";
 import ImagesList from "../components/ImagesList";
+import DetailsTabs from "../components/DetailsTabs";
 
 const Movie = () => {
   const { id } = useParams();
@@ -34,8 +35,9 @@ const Movie = () => {
   return (
     <Container>
       {data && cast && <Details data={data} cast={cast} />}
-      {data?.images.posters && <ImagesList backdrops={data.images.posters} />}
-      {data?.images.backdrops && <ImagesList backdrops={data.images.backdrops} />}
+      {data?.images.backdrops && data?.images.posters && (
+        <DetailsTabs backdrops={data?.images.backdrops} posters={data?.images.posters} />
+      )}
     </Container>
   );
 };

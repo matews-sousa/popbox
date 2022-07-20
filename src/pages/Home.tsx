@@ -69,7 +69,7 @@ const Home = () => {
   }
   return (
     <Container>
-      <div className="absolute top-24 left-0 w-screen">
+      <div className="absolute top-24 left-0 w-full">
         <Swiper
           breakpoints={breakpoints}
           loop={true}

@@ -19,15 +19,13 @@ const Details = ({ data, cast }: Props) => {
 
   return (
     <>
-      <div className="absolute w-screen h-3/5 top-0 left-0">
-        <div className="relative z-10 w-full h-full">
-          <motion.img
-            src={`http://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
-            className="h-full w-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          />
-        </div>
+      <div className="absolute w-full h-3/5 top-0 left-0">
+        <motion.img
+          src={`http://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
+          className="absolute z-10 h-full w-full object-cover"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
         <div className="bg-gradient-to-t from-gray-900 h-full w-full absolute bottom-0 z-10"></div>
       </div>
       <motion.section

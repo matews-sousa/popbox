@@ -17,6 +17,14 @@ const Details = ({ data, cast }: Props) => {
     return `${hours}h ${min}min`;
   };
 
+  // convert vote average to stars
+  const convertVoteAverage = (voteAverage?: number) => {
+    if (!voteAverage) return null;
+    const stars = Math.floor(voteAverage / 2);
+    return Array(stars).fill(1);
+  };
+  const starts = convertVoteAverage(data.vote_average);
+
   return (
     <>
       <div className="absolute w-full h-3/5 top-0 left-0">
@@ -45,11 +53,37 @@ const Details = ({ data, cast }: Props) => {
           />
 
           <div className="mt-4 flex items-center space-x-4">
-            <div
-              className="radial-progress text-lg text-red-600 font-semibold"
-              style={{ "--value": data?.vote_average * 10, "--size": "50px" }}
-            >
-              {data?.vote_average}
+            <div className="rating">
+              <input
+                type="radio"
+                name="rating-2"
+                className="mask mask-star-2 bg-orange-400 cursor-default"
+                checked={starts?.length === 1}
+              />
+              <input
+                type="radio"
+                name="rating-2"
+                className="mask mask-star-2 bg-orange-400 cursor-default"
+                checked={starts?.length === 2}
+              />
+              <input
+                type="radio"
+                name="rating-2"
+                className="mask mask-star-2 bg-orange-400 cursor-default"
+                checked={starts?.length === 3}
+              />
+              <input
+                type="radio"
+                name="rating-2"
+                className="mask mask-star-2 bg-orange-400 cursor-default"
+                checked={starts?.length === 4}
+              />
+              <input
+                type="radio"
+                name="rating-2"
+                className="mask mask-star-2 bg-orange-400 cursor-default"
+                checked={starts?.length === 5}
+              />
             </div>
             <p className="text-lg">
               <span className="font-semibold">{data?.vote_count}</span>{" "}
@@ -102,7 +136,9 @@ const Details = ({ data, cast }: Props) => {
               <li className="grid grid-cols-3">
                 <span className="text-gray-300 font-medium">Release date</span>
                 <span className="text-gray-500 col-span-2">
-                  {new Date(data?.release_date || data?.first_air_date).toLocaleDateString()}
+                  {data?.release_date ||
+                    (data?.first_air_date &&
+                      new Date(data?.release_date || data?.first_air_date).toLocaleDateString())}
                 </span>
               </li>
               <div className="w-full h-[1px] bg-gray-500 my-2"></div>

@@ -6,12 +6,11 @@ import Loader from "../components/Loader";
 import { ICast } from "../types/ICast";
 import Details from "../components/Details";
 import { IMedia } from "../types/IMedia";
-import ImagesList from "../components/ImagesList";
 import DetailsTabs from "../components/DetailsTabs";
 
 const Movie = () => {
   const { id } = useParams();
-  const { data, isLoading } = useQuery<IMedia>("movie", async () => {
+  const { data, isLoading } = useQuery<IMedia>(["movie", id], async () => {
     const { data } = await api.get(
       `/movie/${id}?append_to_response=images,videos&include_image_language=en,null`,
     );

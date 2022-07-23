@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Movie from "./pages/Movie";
 import Movies from "./pages/Movies";
+import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import Serie from "./pages/Serie";
 import Series from "./pages/Series";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-series" element={<Series />} />
           <Route path="/search" element={<Search />} />

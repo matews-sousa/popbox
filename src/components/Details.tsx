@@ -2,6 +2,8 @@ import { ICast } from "../types/ICast";
 import { BsPlay, BsSuitHeart } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { IMedia } from "../types/IMedia";
+import { useEffect, useState } from "react";
+import VideoModal from "./VideoModal";
 
 interface Props {
   data: IMedia;
@@ -9,6 +11,10 @@ interface Props {
 }
 
 const Details = ({ data, cast }: Props) => {
+  // open trailer modal
+  const [isOpen, setIsOpen] = useState(false);
+  const trailer = data.videos.results.find((video) => video.type === "Trailer");
+
   // convert minutes to hours and minutes
   const convertMinutes = (minutes?: number) => {
     if (!minutes) return null;
@@ -24,6 +30,14 @@ const Details = ({ data, cast }: Props) => {
     return Array(stars).fill(1);
   };
   const starts = convertVoteAverage(data.vote_average);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -102,15 +116,13 @@ const Details = ({ data, cast }: Props) => {
             Original title: {data?.original_title || data?.original_name}
           </p>
 
-          <div className="flex space-x-4 mt-6">
-            <button className="px-4 md:px-5 py-2 md:py-3 rounded-full bg-red-500 hover:bg-red-600 hover:shadow-red-600 shadow-md shadow-red-500 flex items-center space-x-2 font-semibold">
-              <span>Watch Trailer</span>
-              <BsPlay className="h-6 w-6" />
-            </button>
-            <button className="rounded-full border-2 border-white p-2 md:p-3">
-              <BsSuitHeart className="h-6 w-6" />
-            </button>
-          </div>
+          <button
+            className="px-4 md:px-5 py-2 md:py-3 rounded-full bg-red-500 hover:bg-red-600 hover:shadow-red-600 shadow-md shadow-red-500 flex items-center space-x-2 font-semibold"
+            onClick={() => setIsOpen(true)}
+          >
+            <span>Watch Trailer</span>
+            <BsPlay className="h-6 w-6" />
+          </button>
 
           <p className="mt-10 md:text-lg text-gray-300">{data?.overview}</p>
 
@@ -177,6 +189,7 @@ const Details = ({ data, cast }: Props) => {
           </div>
         </motion.div>
       </motion.section>
+      {trailer && isOpen && <VideoModal videoKey={trailer.key} setIsOpen={setIsOpen} />}
     </>
   );
 };

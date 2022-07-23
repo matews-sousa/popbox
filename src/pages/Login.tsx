@@ -2,7 +2,7 @@ import InputText from "../components/InputText";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ const schema = z.object({
 });
 
 const Login = () => {
-  const { signIn } = useAuth();
+  const { signIn, currentUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -20,7 +20,6 @@ const Login = () => {
   } = useForm({
     resolver: zodResolver(schema),
   });
-
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
 
@@ -42,6 +41,8 @@ const Login = () => {
       }
     }
   };
+
+  if (currentUser) return <Navigate to="/" />;
 
   return (
     <div className="w-screen h-screen flex justify-center items-center flex-col">

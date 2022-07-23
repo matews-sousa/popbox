@@ -41,6 +41,18 @@ const Navbar = () => {
           </Link>
         ))}
       </ul>
+      <ul className="flex space-x-3">
+        <li>
+          <Link className="btn btn-primary btn-sm" to="/login">
+            Login
+          </Link>
+        </li>
+        <li>
+          <Link className="btn btn-ghost btn-sm" to="/signup">
+            Sign Up
+          </Link>
+        </li>
+      </ul>
     </nav>
   );
 };

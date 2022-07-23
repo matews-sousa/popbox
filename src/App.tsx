@@ -4,11 +4,13 @@ import BottomNav from "./components/BottomNav";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Movie from "./pages/Movie";
 import Movies from "./pages/Movies";
 import Search from "./pages/Search";
 import Serie from "./pages/Serie";
 import Series from "./pages/Series";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const location = useLocation();
@@ -21,6 +23,8 @@ function App() {
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-series" element={<Series />} />
           <Route path="/search" element={<Search />} />

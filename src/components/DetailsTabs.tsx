@@ -10,7 +10,7 @@ interface Props {
   posters: IImage[];
 }
 
-const tabs = ["Backdrops", "Posters", "Videos"];
+const tabs = ["Backdrops", "Posters"];
 
 const DetailsTabs = ({ backdrops, posters }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,6 @@ const DetailsTabs = ({ backdrops, posters }: Props) => {
   const tabsContent = [
     <ImagesList images={backdrops} handleImageClick={handleImageClick} />,
     <ImagesList images={posters} handleImageClick={handleImageClick} />,
-    <ImagesList images={backdrops} handleImageClick={handleImageClick} />,
   ];
 
   useEffect(() => {

@@ -28,11 +28,7 @@ const LoadImage = ({ src, ...props }: ImageProps) => {
   }, [src, onLoad, onError]);
 
   if (!isLoaded) {
-    return (
-      <div className="w-full h-full animate-pulse">
-        <div className="w-full h-full bg-slate-700"></div>
-      </div>
-    );
+    return <div className="w-full h-[90%] animate-pulse bg-slate-700"></div>;
   }
 
   return <img {...props} src={imgSrc} alt={imgSrc} />;

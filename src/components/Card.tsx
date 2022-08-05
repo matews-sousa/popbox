@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { IMedia } from "../types/IMedia";
+import Image from "./Image";
 
 interface Props {
   data: IMedia;
@@ -9,7 +10,7 @@ interface Props {
 const Card = ({ data, type = "movie" }: Props) => {
   return (
     <Link to={`/${type}/${data.id}`} className="group">
-      <img
+      <Image
         src={`http://image.tmdb.org/t/p/w500/${data.poster_path}`}
         className="rounded-md w-full shadow-lg group-hover:scale-105 group-hover:shadow-xl transition-all duration-200"
       />

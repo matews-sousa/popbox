@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const schema = z
   .object({
+    name: z.string().min(1, { message: "Name is required." }),
     email: z.string().email().min(1, { message: "Email is required." }),
     password: z.string().min(6, { message: "Password must have at least 6 characters." }),
     confirm: z.string(),
@@ -31,7 +32,7 @@ const SignUp = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      await signUp(data.email, data.password);
+      await signUp(data.name, data.email, data.password);
       navigate("/login");
     } catch (error: any) {
       switch (error.code) {
@@ -83,6 +84,7 @@ const SignUp = () => {
             </div>
           )}
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+            <InputText label="Name" name="name" register={register} error={errors} />
             <InputText label="Email" name="email" register={register} error={errors} />
             <InputText
               label="Password"

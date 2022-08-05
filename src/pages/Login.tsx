@@ -12,7 +12,7 @@ const schema = z.object({
 });
 
 const Login = () => {
-  const { signIn, currentUser } = useAuth();
+  const { signIn, signInWithGoogle, currentUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -84,6 +84,10 @@ const Login = () => {
             />
             <button className="btn btn-accent w-full mt-4">Login</button>
           </form>
+          <div className="divider">OR</div>
+          <button className="btn btn-primary normal-case" onClick={signInWithGoogle}>
+            Sign In with Google
+          </button>
         </div>
       </div>
       <p className="mt-4">

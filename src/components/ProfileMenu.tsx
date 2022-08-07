@@ -40,6 +40,9 @@ const ProfileMenu = () => {
           <Link to="/profile">Profile</Link>
         </Menu.Item>
         <Menu.Item as="li">
+          <Link to="/profile/my-favorites">My Favorites</Link>
+        </Menu.Item>
+        <Menu.Item as="li">
           <span onClick={handleLogout}>Logout</span>
         </Menu.Item>
       </Menu.Items>

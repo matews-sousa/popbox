@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { IMedia } from "../types/IMedia";
 import { useEffect, useState } from "react";
 import VideoModal from "./VideoModal";
+import FavoriteButton from "./FavoriteButton";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Props {
   data: IMedia;
@@ -11,7 +13,7 @@ interface Props {
 }
 
 const Details = ({ data, cast }: Props) => {
-  // open trailer modal
+  const { currentUser } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const trailer = data.videos.results.find((video) => video.type === "Trailer");
 
@@ -116,13 +118,18 @@ const Details = ({ data, cast }: Props) => {
             Original title: {data?.original_title || data?.original_name}
           </p>
 
-          <button
-            className="px-4 md:px-5 py-2 md:py-3 rounded-full bg-red-500 hover:bg-red-600 hover:shadow-red-600 shadow-md shadow-red-500 flex items-center space-x-2 font-semibold"
-            onClick={() => setIsOpen(true)}
-          >
-            <span>Watch Trailer</span>
-            <BsPlay className="h-6 w-6" />
-          </button>
+          <div className="flex items-center space-x-6">
+            <button
+              className="px-4 md:px-5 py-2 md:py-3 rounded-full bg-red-500 hover:bg-red-600 hover:shadow-red-600 shadow-md shadow-red-500 flex items-center space-x-2 font-semibold"
+              onClick={() => setIsOpen(true)}
+            >
+              <span>Watch Trailer</span>
+              <BsPlay className="h-6 w-6" />
+            </button>
+            {currentUser && data && (
+              <FavoriteButton mediaId={data.id} mediaType={data?.original_title ? "movie" : "tv"} />
+            )}
+          </div>
 
           <p className="mt-10 md:text-lg text-gray-300">{data?.overview}</p>
 

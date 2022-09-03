@@ -4,6 +4,10 @@ export interface IList {
   id: string;
   name: string;
   public: boolean;
-  medias: IMedia[];
+  medias: {
+    mediaId: string;
+    mediaType: string;
+    posterPath: string;
+  }[];
   createdAt: Date;
 }

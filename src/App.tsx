@@ -6,6 +6,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { useAuth } from "./contexts/AuthContext";
 import EditProfile from "./pages/EditProfile";
 import Home from "./pages/Home";
+import List from "./pages/List";
 import Login from "./pages/Login";
 import Movie from "./pages/Movie";
 import Movies from "./pages/Movies";
@@ -42,6 +43,7 @@ function App() {
             <Route path="/profile/edit" element={<EditProfile />} />
             <Route path="/profile/my-favorites" element={<MyFavorites />} />
             <Route path="/profile/new-list" element={<NewList />} />
+            <Route path="/profile/list/:id" element={<List />} />
           </Route>
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-series" element={<Series />} />

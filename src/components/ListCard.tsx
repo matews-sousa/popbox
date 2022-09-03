@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 const ListCard = ({ medias, name, link }: any) => {
-  console.log(medias);
-
   return (
     <div className="flex items-center space-x-4">
       <Link to={link} className="relative w-56 h-32 md:h-48">
@@ -13,7 +11,7 @@ const ListCard = ({ medias, name, link }: any) => {
               style={{ left: `${index * 30}px`, zIndex: item }}
             >
               <img
-                src={`http://image.tmdb.org/t/p/w500/${medias[index].poster_path}`}
+                src={`http://image.tmdb.org/t/p/w500/${medias[index].posterPath}`}
                 alt=""
                 className="w-full h-full"
               />

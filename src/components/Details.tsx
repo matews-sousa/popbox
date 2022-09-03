@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import VideoModal from "./VideoModal";
 import FavoriteButton from "./FavoriteButton";
 import { useAuth } from "../contexts/AuthContext";
+import WatchedButton from "./WatchedButton";
 
 interface Props {
   data: IMedia;
@@ -127,7 +128,16 @@ const Details = ({ data, cast }: Props) => {
               <BsPlay className="h-6 w-6" />
             </button>
             {currentUser && data && (
-              <FavoriteButton mediaId={data.id} mediaType={data?.original_title ? "movie" : "tv"} />
+              <>
+                <FavoriteButton
+                  mediaId={data.id}
+                  mediaType={data?.original_title ? "movie" : "tv"}
+                />
+                <WatchedButton
+                  mediaId={data.id}
+                  mediaType={data?.original_title ? "movie" : "tv"}
+                />
+              </>
             )}
           </div>
 

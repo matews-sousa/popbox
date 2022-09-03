@@ -37,11 +37,12 @@ const FavoriteButton = ({ mediaId, mediaType }: Props) => {
   }, []);
 
   return (
-    <button
-      className="p-3 border border-white rounded-full flex items-center justify-center"
-      onClick={handleClick}
-    >
-      {isFavorite ? <BsHeartFill className="text-white" /> : <BsHeart className="text-white" />}
+    <button onClick={handleClick}>
+      {isFavorite ? (
+        <BsHeartFill className="text-red-500 text-3xl" />
+      ) : (
+        <BsHeart className="text-white text-3xl" />
+      )}
     </button>
   );
 };

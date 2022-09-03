@@ -2,29 +2,16 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { useAuth } from "../contexts/AuthContext";
-import api from "../lib/api";
 import getUserFavorites from "../utils/getUserFavorites";
 import { db } from "../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import ListCard from "../components/ListCard";
 import { IList } from "../types/IList";
+import getUserWatched from "../utils/getUserWatched";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
   const { currentUser } = useAuth();
-  const {
-    data: favorites,
-    isLoading,
-    isError,
-  } = useQuery(["favorites", currentUser?.uid], async () => {
-    if (!currentUser) return [];
-    const favs = await getUserFavorites(currentUser.uid);
-    const favorites = favs.map(async (fav) => {
-      const { data } = await api.get(`/${fav.mediaType}/${fav.mediaId}`);
-      return data;
-    });
-    const finalFavorites = await Promise.all(favorites);
-    return finalFavorites;
-  });
   const {
     data: lists,
     isLoading: isLoadingLists,
@@ -39,6 +26,8 @@ const Profile = () => {
     });
     return lists;
   });
+  const [favorites, setFavorites] = useState<{ mediaId: string; mediaType: string }[]>([]);
+  const [watched, setWatched] = useState<{ mediaId: string; mediaType: string }[]>([]);
 
   const avatar = currentUser?.photoURL ? (
     <div className="avatar">
@@ -54,7 +43,18 @@ const Profile = () => {
     </div>
   );
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!currentUser) return;
+    const fetchFavsAndWatched = async () => {
+      const favs = await getUserFavorites(currentUser.uid);
+      const watches = await getUserWatched(currentUser.uid);
+      setFavorites(favs);
+      setWatched(watches);
+    };
+    fetchFavsAndWatched();
+  }, []);
+
+  if (isLoadingLists) {
     return <div>Loading...</div>;
   }
 
@@ -71,6 +71,37 @@ const Profile = () => {
             Edit Profile
           </Link>
         </div>
+
+        <ul className="flex space-x-5 mt-5">
+          <li>
+            <Link to="my-favorites" className="flex flex-col items-center  group">
+              <p>{favorites.filter((fav) => fav.mediaType === "movie").length}</p>
+              <p className="text-gray-500 group-hover:text-gray-100">Favorites movies</p>
+            </Link>
+          </li>
+          <div className="divider divider-horizontal"></div>
+          <li>
+            <Link to="my-favorites" className="flex flex-col items-center group">
+              <p>{watched.filter((watch) => watch.mediaType === "movie").length}</p>
+              <p className="text-gray-500 group-hover:text-gray-100">Watched movies</p>
+            </Link>
+          </li>
+          <div className="divider divider-horizontal"></div>
+          <li>
+            <Link to="my-favorites" className="flex flex-col items-center group">
+              <p>{favorites.filter((fav) => fav.mediaType === "tv").length}</p>
+              <p className="text-gray-500 group-hover:text-gray-100">Favorites TV</p>
+            </Link>
+          </li>
+          <div className="divider divider-horizontal"></div>
+          <li>
+            <Link to="my-favorites" className="flex flex-col items-center group">
+              <p>{watched.filter((watch) => watch.mediaType === "tv").length}</p>
+              <p className="text-gray-500 group-hover:text-gray-100">Watched TV</p>
+            </Link>
+          </li>
+        </ul>
+
         <div className="flex items-center justify-between">
           <h3 className="mt-8 mb-4 text-3xl">All Lists</h3>
 
@@ -80,7 +111,6 @@ const Profile = () => {
         </div>
 
         <div className="space-y-4">
-          <ListCard medias={favorites} name="Favorites" link="/profile/my-favorites" />
           {lists?.map((list) => (
             <ListCard
               key={list.id}

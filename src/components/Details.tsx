@@ -7,6 +7,7 @@ import VideoModal from "./VideoModal";
 import FavoriteButton from "./FavoriteButton";
 import { useAuth } from "../contexts/AuthContext";
 import WatchedButton from "./WatchedButton";
+import MediaModal from "./MediaModal";
 
 interface Props {
   data: IMedia;
@@ -17,6 +18,7 @@ const Details = ({ data, cast }: Props) => {
   const { currentUser } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const trailer = data.videos.results.find((video) => video.type === "Trailer");
+  const mediaType = data?.original_title ? "movie" : "tv";
 
   // convert minutes to hours and minutes
   const convertMinutes = (minutes?: number) => {
@@ -76,30 +78,35 @@ const Details = ({ data, cast }: Props) => {
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400 cursor-default"
                 checked={starts?.length === 1}
+                readOnly
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400 cursor-default"
                 checked={starts?.length === 2}
+                readOnly
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400 cursor-default"
                 checked={starts?.length === 3}
+                readOnly
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400 cursor-default"
                 checked={starts?.length === 4}
+                readOnly
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400 cursor-default"
                 checked={starts?.length === 5}
+                readOnly
               />
             </div>
             <p className="text-lg">
@@ -129,13 +136,13 @@ const Details = ({ data, cast }: Props) => {
             </button>
             {currentUser && data && (
               <>
-                <FavoriteButton
-                  mediaId={data.id}
-                  mediaType={data?.original_title ? "movie" : "tv"}
-                />
-                <WatchedButton
-                  mediaId={data.id}
-                  mediaType={data?.original_title ? "movie" : "tv"}
+                <FavoriteButton mediaId={data.id} mediaType={mediaType} />
+                <WatchedButton mediaId={data.id} mediaType={mediaType} />
+                <MediaModal
+                  movieTitle={data?.title || data?.name}
+                  movieId={data?.id}
+                  posterPath={data?.poster_path}
+                  mediaType={mediaType}
                 />
               </>
             )}

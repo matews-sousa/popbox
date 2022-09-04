@@ -1,5 +1,6 @@
 import { addDoc, collection, doc, setDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Container from "../components/Container";
 import InputText from "../components/InputText";
 import { useAuth } from "../contexts/AuthContext";
@@ -10,11 +11,11 @@ const NewList = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     try {
       const docRef = await addDoc(collection(db, "lists"), {
         name: data.name,
@@ -23,6 +24,7 @@ const NewList = () => {
         userId: currentUser?.uid,
         createdAt: Timestamp.now(),
       });
+      navigate("/profile");
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +48,12 @@ const NewList = () => {
               <span className="label-text">Public list</span>
             </label>
           </div>
-          <button className="btn btn-primary normal-case">Create</button>
+          <button
+            className={`btn btn-primary normal-case ${isSubmitting && "loading"}`}
+            disabled={isSubmitting}
+          >
+            Create
+          </button>
         </form>
       </div>
     </Container>

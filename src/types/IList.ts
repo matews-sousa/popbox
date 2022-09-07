@@ -10,4 +10,5 @@ export interface IList {
     posterPath: string;
   }[];
   createdAt: Date;
+  userId: string;
 }

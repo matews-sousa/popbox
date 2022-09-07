@@ -1,14 +1,15 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-const getUserFavorites = async (
+const getUserList = async (
   userId: string,
+  list: "favorites" | "watched",
 ): Promise<{ mediaId: string; mediaType: string }[]> => {
-  const docRef = doc(db, "favorites", userId);
+  const docRef = doc(db, list, userId);
   const docSnap = await getDoc(docRef);
-  const favorites = docSnap.data()?.favorites || [];
+  const finalList = docSnap.data()?.list || [];
 
-  return favorites;
+  return finalList;
 };
 
-export default getUserFavorites;
+export default getUserList;

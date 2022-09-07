@@ -20,7 +20,7 @@ const ProfileMenu = () => {
   ) : (
     <div className="avatar placeholder">
       <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
-        <span className="text-xl">{currentUser?.displayName?.charAt(0)}</span>
+        <span className="text-xl">{currentUser?.username?.charAt(0).toUpperCase()}</span>
       </div>
     </div>
   );
@@ -29,7 +29,7 @@ const ProfileMenu = () => {
     <Menu as="div" className="dropdown dropdown-end">
       <Menu.Button as="div" className="cursor-pointer flex items-center space-x-2" tabIndex={0}>
         {avatar}
-        <h2 className="font-semibold">{currentUser?.displayName}</h2>
+        <h2 className="font-semibold">{currentUser?.username}</h2>
       </Menu.Button>
       <Menu.Items
         as="ul"
@@ -37,10 +37,7 @@ const ProfileMenu = () => {
         tabIndex={0}
       >
         <Menu.Item as="li">
-          <Link to="/profile">Profile</Link>
-        </Menu.Item>
-        <Menu.Item as="li">
-          <Link to="/profile/my-favorites">My Favorites</Link>
+          <Link to={`/${currentUser?.username}`}>Profile</Link>
         </Menu.Item>
         <Menu.Item as="li">
           <span onClick={handleLogout}>Logout</span>

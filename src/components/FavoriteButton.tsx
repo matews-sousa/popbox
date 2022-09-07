@@ -3,7 +3,7 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
-import getUserFavorites from "../utils/getUserFavorites";
+import getUserList from "../utils/getUserList";
 
 interface Props {
   mediaId: string;
@@ -23,14 +23,14 @@ const FavoriteButton = ({ mediaId, mediaType }: Props) => {
         newFavs = favorites.filter((fav) => fav.mediaId !== mediaId);
       else newFavs = [...favorites, { mediaId, mediaType }];
       setFavorites(newFavs);
-      await setDoc(docRef, { favorites: newFavs });
+      await setDoc(docRef, { list: newFavs });
     }
   };
 
   useEffect(() => {
     if (!currentUser) return;
     const fetchFavs = async () => {
-      const favs = await getUserFavorites(currentUser.uid);
+      const favs = await getUserList(currentUser.uid, "favorites");
       setFavorites(favs);
     };
     fetchFavs();

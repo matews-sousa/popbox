@@ -9,15 +9,16 @@ import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
-  updateProfile,
 } from "firebase/auth";
 import createUserDoc from "../utils/createUserDoc";
+import { IUser } from "../types/IUser";
+import getUserById from "../utils/getUserById";
 
 interface IAuth {
-  currentUser: User | null;
-  setCurrentUser: (user: User | null) => void;
+  currentUser: IUser | null;
+  setCurrentUser: (user: IUser | null) => void;
   signIn: (email: string, password: string) => Promise<any>;
-  signUp: (name: string, email: string, password: string) => Promise<any>;
+  signUp: (username: string, email: string, password: string) => Promise<any>;
   logout: () => Promise<any>;
   sendPasswordReset: (email: string) => Promise<any>;
   signInWithGoogle: () => Promise<any>;
@@ -30,20 +31,16 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const signIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signUp = async (name: string, email: string, password: string) => {
+  const signUp = async (username: string, email: string, password: string) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    updateProfile(res.user, {
-      displayName: name,
-    }).then(async () => {
-      await createUserDoc(res.user);
-    });
+    await createUserDoc({ username, ...res.user });
 
     return res;
   };
@@ -65,10 +62,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setCurrentUser(user);
-        console.log(user);
+        const userDoc = await getUserById(user.uid);
+        setCurrentUser(userDoc);
       } else {
         setCurrentUser(null);
       }

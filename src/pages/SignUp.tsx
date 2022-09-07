@@ -4,13 +4,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import getUserByUsername from "../utils/getUserByUsername";
 
 const schema = z
   .object({
-    name: z.string().min(1, { message: "Name is required." }),
-    email: z.string().email().min(1, { message: "Email is required." }),
-    password: z.string().min(6, { message: "Password must have at least 6 characters." }),
+    username: z
+      .string()
+      .min(3, "Username must have at least 3 characters")
+      .max(20)
+      .transform((value) => value.toLowerCase().replace(/\s/g, ""))
+      .refine(
+        async (value) => {
+          const usernameAlreadyExists = await getUserByUsername(value);
+          return !usernameAlreadyExists;
+        },
+        {
+          message: "Username already in use",
+        },
+      ),
+    email: z.string().email().min(1, { message: "Email is required" }),
+    password: z.string().min(6, { message: "Password must have at least 6 characters" }),
     confirm: z.string(),
   })
   .refine((data) => data.password === data.confirm, {
@@ -23,6 +37,8 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -32,7 +48,7 @@ const SignUp = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      await signUp(data.name, data.email, data.password);
+      await signUp(data.username, data.email, data.password);
       navigate("/login");
     } catch (error: any) {
       switch (error.code) {
@@ -51,6 +67,11 @@ const SignUp = () => {
       }
     }
   };
+
+  const username = watch("username");
+  useEffect(() => {
+    setValue("username", username?.toLowerCase().replace(/\s/g, ""));
+  }, [username]);
 
   if (currentUser) return <Navigate to="/" />;
 
@@ -84,7 +105,7 @@ const SignUp = () => {
             </div>
           )}
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-            <InputText label="Name" name="name" register={register} error={errors} />
+            <InputText label="Username" name="username" register={register} error={errors} />
             <InputText label="Email" name="email" register={register} error={errors} />
             <InputText
               label="Password"

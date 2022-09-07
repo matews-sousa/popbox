@@ -2,6 +2,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 interface Data {
+  username?: string;
   displayName: string;
   email?: string;
   photoUrl?: string;

@@ -3,7 +3,7 @@ import { MdOutlineRemoveRedEye, MdRemoveRedEye } from "react-icons/md";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
-import getUserWatched from "../utils/getUserWatched";
+import getUserList from "../utils/getUserList";
 
 interface Props {
   mediaId: string;
@@ -23,14 +23,14 @@ const WatchedButton = ({ mediaId, mediaType }: Props) => {
         newWatches = watched.filter((fav) => fav.mediaId !== mediaId);
       else newWatches = [...watched, { mediaId, mediaType }];
       setWatched(newWatches);
-      await setDoc(docRef, { watched: newWatches });
+      await setDoc(docRef, { list: newWatches });
     }
   };
 
   useEffect(() => {
     if (!currentUser) return;
     const fetchWatched = async () => {
-      const watches = await getUserWatched(currentUser.uid);
+      const watches = await getUserList(currentUser.uid, "watched");
       setWatched(watches);
     };
     fetchWatched();

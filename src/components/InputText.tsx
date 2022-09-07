@@ -10,11 +10,11 @@ const InputText = ({ label, name, type = "text", register, error }: Props) => {
   return (
     <div className="form-control w-full">
       <label className="label" htmlFor={name}>
-        <span className="label-text">{label}</span>
+        <span className="label-text-alt">{label}</span>
       </label>
       <input
         type={type}
-        className={`input input-bordered w-full ${error[name]?.message && "input-error"}`}
+        className={`input input-sm input-bordered w-full ${error[name]?.message && "input-error"}`}
         id="password"
         {...register(name)}
       />

@@ -70,7 +70,7 @@ const Series = () => {
             clearSelection={() => setSelectedGenres([])}
           />
         </div>
-        <div className="flex flex-wrap gap-2 mb-5">
+        <div className="flex flex-wrap gap-2 my-5">
           {selectedGenres.length > 0 &&
             selectedGenres.map((g) => (
               <div className="badge badge-primary gap-2">

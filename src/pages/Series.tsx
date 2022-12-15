@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery, useQuery } from "react-query";
 import CardList from "../components/CardList";
 import Container from "../components/Container";
+import FiltersButton from "../components/FiltersButton";
 import GenresFilter from "../components/GenresFilter";
 import Loader from "../components/Loader";
 import api from "../lib/api";
@@ -26,10 +28,13 @@ const Series = () => {
       getNextPageParam: (lastPage, allPages) => allPages.length + 1,
     },
   );
-  const { data: tvGenres, isLoading: isLoadingTvGenres } = useQuery("tvGenres", async () => {
-    const { data } = await api.get("/genre/tv/list");
-    return data.genres;
-  });
+  const { data: tvGenres, isLoading: isLoadingTvGenres } = useQuery<{ id: number; name: string }[]>(
+    "tvGenres",
+    async () => {
+      const { data } = await api.get("/genre/tv/list");
+      return data.genres;
+    },
+  );
   const { ref, inView } = useInView();
 
   const handleGenreClick = (genreId: number) => {
@@ -46,19 +51,10 @@ const Series = () => {
     }
   }, [inView]);
 
-  if (isLoadingPopular || isLoadingTvGenres) {
-    return (
-      <Container>
-        <div className="mx-auto w-12 pt-96">
-          <Loader />
-        </div>
-      </Container>
-    );
-  }
   return (
     <Container>
       <div className="pt-32">
-        <div>
+        <div className="flex gap-4">
           <select
             className="select select-bordered w-full max-w-xs mb-4"
             value={type}
@@ -68,12 +64,28 @@ const Series = () => {
             <option value="top_rated">Top Rated</option>
             <option value="on_the_air">On the air</option>
           </select>
+          <FiltersButton
+            genres={tvGenres}
+            selectedGenres={selectedGenres}
+            handleSelect={handleGenreClick}
+            clearSelection={() => setSelectedGenres([])}
+          />
         </div>
-        <GenresFilter
-          genres={tvGenres}
-          selectedGenres={selectedGenres}
-          handleGenreClick={handleGenreClick}
-        />
+        <div className="flex flex-wrap gap-2 mb-5">
+          {selectedGenres.length > 0 &&
+            selectedGenres.map((g) => (
+              <div className="badge badge-primary gap-2">
+                <span>{tvGenres?.find((genre) => genre.id === g)?.name}</span>
+                <button
+                  onClick={() => {
+                    setSelectedGenres(selectedGenres.filter((genre) => genre !== g));
+                  }}
+                >
+                  <AiOutlineClose />
+                </button>
+              </div>
+            ))}
+        </div>
         {popular && <CardList data={popular} type="serie" />}
         <div className="w-full h-44" ref={ref}></div>
       </div>

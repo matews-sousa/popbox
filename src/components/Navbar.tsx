@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`text-white px-8 h-20 flex justify-between items-center border-b-[0.5px] border-gray-700 z-50 fixed top-0 left-0 right-0 transition-all bg-gray-900 ${
+      className={`text-white px-8 h-20 flex justify-between items-center border-b-[0.5px] border-gray-700 z-40 fixed top-0 left-0 right-0 transition-all bg-gray-900 ${
         scrollPosition > 0 ? "bg-opacity-100" : "bg-opacity-75"
       }`}
     >

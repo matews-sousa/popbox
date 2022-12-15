@@ -12,6 +12,7 @@
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.6",
     "axios": "^0.27.2",
     "daisyui": "^2.19.0",
     "framer-motion": "^6.5.1",

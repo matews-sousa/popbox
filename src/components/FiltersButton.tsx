@@ -26,7 +26,7 @@ const FiltersButton = ({ genres, selectedGenres, handleSelect, clearSelection }:
       </button>
 
       <Dialog as="div" className="z-10" onClose={close} open={isOpen}>
-        <div className="fixed inset-0 bg-black/30 z-40" aria-hidden="true"></div>
+        <div className="fixed inset-0 bg-black/70 z-50" aria-hidden="true"></div>
         <div className="absolute inset-0 flex justify-center items-center">
           <Dialog.Panel as="div" className="modal-box p-0 z-50">
             <div className="flex justify-between items-center p-5 sticky top-0 inset-x-0 bg-gray-900 border-b border-gray-500 mb-4">

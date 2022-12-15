@@ -5,7 +5,6 @@ import { useInfiniteQuery, useQuery } from "react-query";
 import CardList from "../components/CardList";
 import Container from "../components/Container";
 import FiltersButton from "../components/FiltersButton";
-import GenresFilter from "../components/GenresFilter";
 import Loader from "../components/Loader";
 import api from "../lib/api";
 
@@ -54,9 +53,9 @@ const Series = () => {
   return (
     <Container>
       <div className="pt-32">
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <select
-            className="select select-bordered w-full max-w-xs mb-4"
+            className="select select-bordered w-full max-w-xs"
             value={type}
             onChange={(e) => setType(e.target.value)}
           >

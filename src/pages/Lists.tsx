@@ -4,7 +4,6 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { AiOutlineClose } from "react-icons/ai";
 import CardList from "../components/CardList";
-import Container from "../components/Container";
 import FiltersButton from "../components/FiltersButton";
 import api from "../lib/api";
 
@@ -50,7 +49,7 @@ const Lists = () => {
   }, [inView]);
 
   return (
-    <Container>
+    <>
       <div className="pt-32">
         <div className="flex flex-wrap gap-4">
           <select
@@ -98,7 +97,7 @@ const Lists = () => {
         {popular && <CardList data={popular} type={mediaType} />}
         <div className="w-full h-44" ref={ref}></div>
       </div>
-    </Container>
+    </>
   );
 };
 

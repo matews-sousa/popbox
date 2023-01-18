@@ -1,5 +1,5 @@
 import { ICast } from "../types/ICast";
-import { BsPlay, BsSuitHeart } from "react-icons/bs";
+import { BsPlay } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { IMedia } from "../types/IMedia";
 import { useEffect, useState } from "react";
@@ -13,7 +13,19 @@ interface Props {
 const Details = ({ data, cast }: Props) => {
   // open trailer modal
   const [isOpen, setIsOpen] = useState(false);
-  const trailer = data.videos.results.find((video) => video.type === "Trailer");
+
+  const trailer =
+    data.videos.results.find((video) => video.type === "Trailer") ||
+    data.videos.results.find((video) => video.type === "Teaser");
+
+  // transform string to date
+  const convertDate = (date?: string) => {
+    if (!date) return null;
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString("en-US", {
+      dateStyle: "long",
+    });
+  };
 
   // convert minutes to hours and minutes
   const convertMinutes = (minutes?: number) => {
@@ -148,9 +160,7 @@ const Details = ({ data, cast }: Props) => {
               <li className="grid grid-cols-3">
                 <span className="text-gray-300 font-medium">Release date</span>
                 <span className="text-gray-500 col-span-2">
-                  {data?.release_date ||
-                    (data?.first_air_date &&
-                      new Date(data?.release_date || data?.first_air_date).toLocaleDateString())}
+                  {convertDate(data.release_date || data.first_air_date)}
                 </span>
               </li>
               <div className="w-full h-[1px] bg-gray-500 my-2"></div>

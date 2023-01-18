@@ -1,5 +1,4 @@
 import { useInfiniteQuery, useQuery } from "react-query";
-import Container from "../components/Container";
 import api from "../lib/api";
 import { IMovie } from "../types/IMovie";
 import Loader from "../components/Loader";
@@ -9,9 +8,7 @@ import { Autoplay } from "swiper";
 import MovieInfo from "../components/MovieInfo";
 import { Link } from "react-router-dom";
 import CardList from "../components/CardList";
-import { useEffect, useState } from "react";
-import Card from "../components/Card";
-import { IMedia } from "../types/IMedia";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 const breakpoints = {
@@ -35,8 +32,6 @@ const Home = () => {
     data: popular,
     isLoading: isLoadingPopular,
     fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
   } = useInfiniteQuery(
     ["popular"],
     async ({ pageParam = 1 }) => {
@@ -48,7 +43,7 @@ const Home = () => {
     },
   );
   const { data: nowPlaying, isLoading: isLoadingNowPlaying } = useQuery("now_playing", async () => {
-    const { data } = await api.get(`/movie/now_playing`);
+    const { data } = await api.get("/movie/now_playing");
     return data;
   });
 
@@ -60,15 +55,13 @@ const Home = () => {
 
   if (isLoadingPopular || isLoadingNowPlaying) {
     return (
-      <Container>
-        <div className="mx-auto w-12 pt-96">
-          <Loader />
-        </div>
-      </Container>
+      <div className="mx-auto w-12 pt-96">
+        <Loader />
+      </div>
     );
   }
   return (
-    <Container>
+    <>
       <div className="absolute top-24 left-0 w-full">
         <Swiper
           breakpoints={breakpoints}
@@ -91,7 +84,7 @@ const Home = () => {
 
         <div className="w-full h-44" ref={ref}></div>
       </div>
-    </Container>
+    </>
   );
 };
 

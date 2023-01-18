@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes, useLocation } from "react-router-dom";
 import BottomNav from "./components/BottomNav";
+import Container from "./components/Container";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
@@ -17,12 +18,14 @@ function App() {
       <Navbar />
       <BottomNav />
       <AnimatePresence exitBeforeEnter>
-        <Routes location={location} key={location.key}>
-          <Route path="/" element={<Home />} />
-          <Route path="/:mediaType" element={<Lists />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/:mediaType/:id" element={<Media />} />
-        </Routes>
+        <Container>
+          <Routes location={location} key={location.key}>
+            <Route path="/" element={<Home />} />
+            <Route path="/:mediaType" element={<Lists />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/:mediaType/:id" element={<Media />} />
+          </Routes>
+        </Container>
       </AnimatePresence>
     </>
   );

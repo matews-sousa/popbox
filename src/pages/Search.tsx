@@ -1,51 +1,42 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import { IMedia } from "../types/IMedia";
 import api from "../lib/api";
-import Container from "../components/Container";
 import Card from "../components/Card";
 
 const Search = () => {
-  const [search, setSearch] = useState("");
-  const { data: movieResults, refetch: refetchMovieResults } = useQuery<IMedia[]>(
-    "movieResults",
-    async () => {
-      if (search) {
-        const { data } = await api.get(`/search/movie?query=${search}`);
-        return data.results;
-      }
-      return null;
-    },
-  );
-  const { data: tvResults, refetch: refetchTvResults } = useQuery<IMedia[]>(
-    "tvResults",
-    async () => {
-      if (search) {
-        const { data } = await api.get(`/search/tv?query=${search}`);
-        return data.results;
-      }
-      return null;
-    },
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query");
+  const [search, setSearch] = useState(query || "");
+  const { data } = useQuery<IMedia[]>(["searchResults", query], async () => {
+    if (query) {
+      const { data: movieData } = await api.get(`/search/movie?query=${query}`);
+      const { data: tvData } = await api.get(`/search/tv?query=${query}`);
+      // join the results if both have data, else, return only the one who have
+      const _data =
+        movieData.results && tvData.results
+          ? [...movieData.results, ...tvData.results].sort((a, b) => b.popularity - a.popularity)
+          : movieData.results || tvData.results;
 
-  // join the results of both movie and tv if they exist, else, just return the results of the one who exists
-  const data =
-    movieResults && tvResults
-      ? [...movieResults, ...tvResults].sort((a, b) => b.popularity - a.popularity)
-      : movieResults || tvResults;
+      return _data;
+    }
+    return null;
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (search.trim() !== "") {
-      refetchMovieResults();
-      refetchTvResults();
+    if (search && search.trim() !== "") {
+      setSearchParams({
+        query: search,
+      });
     }
   };
 
   return (
-    <Container>
+    <>
       <div className="py-32">
         <form className="flex mb-6" onSubmit={handleSearch}>
           <input
@@ -74,7 +65,7 @@ const Search = () => {
             : null}
         </div>
       </div>
-    </Container>
+    </>
   );
 };
 

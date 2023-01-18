@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import Container from "../components/Container";
 import api from "../lib/api";
 import Loader from "../components/Loader";
 import { ICast } from "../types/ICast";
@@ -28,21 +27,19 @@ const Media = () => {
 
   if (isLoading || castLoading) {
     return (
-      <Container>
-        <div className="mx-auto w-12 pt-96">
-          <Loader />
-        </div>
-      </Container>
+      <div className="mx-auto w-12 pt-96">
+        <Loader />
+      </div>
     );
   }
 
   return (
-    <Container>
+    <>
       {data && cast && <Details data={data} cast={cast} />}
       {data?.images.backdrops && data?.images.posters && (
         <DetailsTabs backdrops={data?.images.backdrops} posters={data?.images.posters} />
       )}
-    </Container>
+    </>
   );
 };
 

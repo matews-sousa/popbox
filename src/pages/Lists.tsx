@@ -1,39 +1,38 @@
 import { useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery, useQuery } from "react-query";
+import { AiOutlineClose } from "react-icons/ai";
 import CardList from "../components/CardList";
 import Container from "../components/Container";
 import FiltersButton from "../components/FiltersButton";
-import Loader from "../components/Loader";
 import api from "../lib/api";
 
-const Series = () => {
+const Lists = () => {
+  const { mediaType } = useParams<{ mediaType: "movie" | "tv" }>();
   const [type, setType] = useState("popular");
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-  const {
-    data: popular,
-    isLoading: isLoadingPopular,
-    fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(
-    ["tv", type, selectedGenres],
+  const { data: popular, fetchNextPage } = useInfiniteQuery(
+    [mediaType, type, selectedGenres],
     async ({ pageParam = 1 }) => {
-      const { data } = await api.get(`/tv/${type}?page=${pageParam}&with_genres=${selectedGenres}`);
+      const { data } = await api.get(
+        `/${mediaType}/${type}?page=${pageParam}&with_genres=${selectedGenres}`,
+      );
       return data;
     },
     {
       getNextPageParam: (lastPage, allPages) => allPages.length + 1,
     },
   );
-  const { data: tvGenres, isLoading: isLoadingTvGenres } = useQuery<{ id: number; name: string }[]>(
-    "tvGenres",
-    async () => {
-      const { data } = await api.get("/genre/tv/list");
-      return data.genres;
-    },
-  );
+  const { data: genres } = useQuery<
+    {
+      id: number;
+      name: string;
+    }[]
+  >(`${mediaType}Genres`, async () => {
+    const { data } = await api.get(`/genre/${mediaType}/list`);
+    return data.genres;
+  });
   const { ref, inView } = useInView();
 
   const handleGenreClick = (genreId: number) => {
@@ -59,12 +58,23 @@ const Series = () => {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="popular">Popular</option>
-            <option value="top_rated">Top Rated</option>
-            <option value="on_the_air">On the air</option>
+            {mediaType === "movie" ? (
+              <>
+                <option value="popular">Popular</option>
+                <option value="now_playing">Now Playing</option>
+                <option value="top_rated">Top Rated</option>
+                <option value="upcoming">Upcoming</option>
+              </>
+            ) : (
+              <>
+                <option value="popular">Popular</option>
+                <option value="top_rated">Top Rated</option>
+                <option value="on_the_air">On the air</option>
+              </>
+            )}
           </select>
           <FiltersButton
-            genres={tvGenres}
+            genres={genres}
             selectedGenres={selectedGenres}
             handleSelect={handleGenreClick}
             clearSelection={() => setSelectedGenres([])}
@@ -73,8 +83,8 @@ const Series = () => {
         <div className="flex flex-wrap gap-2 my-5">
           {selectedGenres.length > 0 &&
             selectedGenres.map((g) => (
-              <div className="badge badge-primary gap-2">
-                <span>{tvGenres?.find((genre) => genre.id === g)?.name}</span>
+              <div className="badge badge-primary gap-2" key={g}>
+                <span>{genres?.find((genre) => genre.id === g)?.name}</span>
                 <button
                   onClick={() => {
                     setSelectedGenres(selectedGenres.filter((genre) => genre !== g));
@@ -85,11 +95,11 @@ const Series = () => {
               </div>
             ))}
         </div>
-        {popular && <CardList data={popular} type="serie" />}
+        {popular && <CardList data={popular} type="movie" />}
         <div className="w-full h-44" ref={ref}></div>
       </div>
     </Container>
   );
 };
 
-export default Series;
+export default Lists;

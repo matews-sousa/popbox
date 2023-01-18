@@ -1,24 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-const links = [
-  {
-    href: "/",
-    text: "Home",
-  },
-  {
-    href: "/movies",
-    text: "Movies",
-  },
-  {
-    href: "/tv-series",
-    text: "TV Series",
-  },
-  {
-    href: "/search",
-    text: "Search",
-  },
-];
+import navLinks from "../constants/navLinks";
 
 const Navbar = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -47,7 +29,7 @@ const Navbar = () => {
         PopBox
       </Link>
       <ul className="space-x-5 hidden md:flex h-full">
-        {links.map((link) => (
+        {navLinks.map((link) => (
           <li
             key={link.href}
             className={`h-full flex items-center transition-all ${
@@ -56,7 +38,7 @@ const Navbar = () => {
                 : "text-gray-400"
             }`}
           >
-            <Link className={`font-semibold hover:text-white `} to={link.href}>
+            <Link className={"font-semibold hover:text-white"} to={link.href}>
               {link.text}
             </Link>
           </li>

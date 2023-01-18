@@ -1,31 +1,7 @@
 import { useLocation } from "react-router-dom";
-import { IoHome } from "react-icons/io5";
-import { MdLocalMovies, MdOutlineMovie, MdPerson, MdSearch } from "react-icons/md";
 import { AnimateSharedLayout } from "framer-motion";
+import navLinks from "../constants/navLinks";
 import NavLink from "./NavLink";
-
-const links = [
-  {
-    href: "/",
-    text: "Home",
-    icon: <IoHome className="w-8 h-8" />,
-  },
-  {
-    href: "/movies",
-    text: "Movies",
-    icon: <MdLocalMovies className="w-8 h-8" />,
-  },
-  {
-    href: "/tv-series",
-    text: "TV",
-    icon: <MdOutlineMovie className="w-8 h-8" />,
-  },
-  {
-    href: "/search",
-    text: "Search",
-    icon: <MdSearch className="w-8 h-8" />,
-  },
-];
 
 const BottomNav = () => {
   const { pathname } = useLocation();
@@ -34,7 +10,7 @@ const BottomNav = () => {
     <div className="z-50 fixed bottom-0 left-0 py-4 bg-gray-800 w-screen block md:hidden rounded-t-2xl">
       <AnimateSharedLayout>
         <ul className="flex items-center justify-between px-4">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <NavLink
               href={link.href}
               text={link.text}

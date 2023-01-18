@@ -2,14 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
+
 interface Props {
   href: string;
   text: string;
-  icon: React.ReactNode;
+  icon?: IconType;
   active: boolean;
 }
 
 const NavLink = ({ href, text, icon, active }: Props) => {
+  const Icon = icon;
+
   return (
     <Link
       key={href}
@@ -18,7 +22,7 @@ const NavLink = ({ href, text, icon, active }: Props) => {
         active ? "text-white" : "text-gray-500"
       } flex items-center space-x-2 relative px-3 py-1`}
     >
-      {icon}
+      {Icon && <Icon type="button" className="w-8 h-8" />}
       {active && (
         <motion.span className="text-md font-medium" initial={{ y: 50 }} animate={{ y: 0 }}>
           {text}

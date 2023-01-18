@@ -1,36 +1,34 @@
 import React, { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { useQuery } from "react-query";
-import Container from "../components/Container";
-import api from "../lib/api";
 import { motion } from "framer-motion";
-import Card from "../components/Card";
 import { IMedia } from "../types/IMedia";
+import api from "../lib/api";
+import Container from "../components/Container";
+import Card from "../components/Card";
 
 const Search = () => {
   const [search, setSearch] = useState("");
-  const {
-    data: movieResults,
-    isLoading: isLoadingMovieResults,
-    refetch: refetchMovieResults,
-  } = useQuery<IMedia[]>("movieResults", async () => {
-    if (search) {
-      const { data } = await api.get(`/search/movie?query=${search}`);
-      return data.results;
-    }
-    return null;
-  });
-  const {
-    data: tvResults,
-    isLoading: isLoadingTvResults,
-    refetch: refetchTvResults,
-  } = useQuery<IMedia[]>("tvResults", async () => {
-    if (search) {
-      const { data } = await api.get(`/search/tv?query=${search}`);
-      return data.results;
-    }
-    return null;
-  });
+  const { data: movieResults, refetch: refetchMovieResults } = useQuery<IMedia[]>(
+    "movieResults",
+    async () => {
+      if (search) {
+        const { data } = await api.get(`/search/movie?query=${search}`);
+        return data.results;
+      }
+      return null;
+    },
+  );
+  const { data: tvResults, refetch: refetchTvResults } = useQuery<IMedia[]>(
+    "tvResults",
+    async () => {
+      if (search) {
+        const { data } = await api.get(`/search/tv?query=${search}`);
+        return data.results;
+      }
+      return null;
+    },
+  );
 
   // join the results of both movie and tv if they exist, else, just return the results of the one who exists
   const data =
@@ -70,7 +68,7 @@ const Search = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index / 30 }}
                 >
-                  <Card data={media} type={media.original_title ? "movie" : "serie"} />
+                  <Card data={media} type={media.original_title ? "movie" : "tv"} />
                 </motion.div>
               ))
             : null}

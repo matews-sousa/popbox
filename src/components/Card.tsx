@@ -3,7 +3,7 @@ import { IMedia } from "../types/IMedia";
 
 interface Props {
   data: IMedia;
-  type?: "movie" | "serie";
+  type?: "movie" | "tv";
 }
 
 const Card = ({ data, type = "movie" }: Props) => {

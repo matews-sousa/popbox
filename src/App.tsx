@@ -5,9 +5,8 @@ import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Lists from "./pages/Lists";
-import Movie from "./pages/Movie";
+import Media from "./pages/Media";
 import Search from "./pages/Search";
-import Serie from "./pages/Serie";
 
 function App() {
   const location = useLocation();
@@ -22,8 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/:mediaType" element={<Lists />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/movie/:id" element={<Movie />} />
-          <Route path="/serie/:id" element={<Serie />} />
+          <Route path="/:mediaType/:id" element={<Media />} />
         </Routes>
       </AnimatePresence>
     </>

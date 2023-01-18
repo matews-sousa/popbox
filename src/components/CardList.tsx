@@ -8,7 +8,7 @@ interface Props {
       results: IMedia[];
     }[];
   };
-  type?: "movie" | "serie";
+  type?: "movie" | "tv";
 }
 
 const CardList = ({ data, type }: Props) => {

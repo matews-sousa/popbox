@@ -95,7 +95,7 @@ const Lists = () => {
               </div>
             ))}
         </div>
-        {popular && <CardList data={popular} type="movie" />}
+        {popular && <CardList data={popular} type={mediaType} />}
         <div className="w-full h-44" ref={ref}></div>
       </div>
     </Container>

@@ -8,16 +8,21 @@ import Details from "../components/Details";
 import { IMedia } from "../types/IMedia";
 import DetailsTabs from "../components/DetailsTabs";
 
-const Serie = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useQuery<IMedia>(["serie", id], async () => {
+type Params = {
+  mediaType: "movie" | "tv";
+  id: string;
+};
+
+const Media = () => {
+  const { mediaType, id } = useParams<Params>();
+  const { data, isLoading } = useQuery<IMedia>([mediaType, id], async () => {
     const { data } = await api.get(
-      `/tv/${id}?append_to_response=images,videos&include_image_language=en,null`,
+      `/${mediaType}/${id}?append_to_response=images,videos&include_image_language=en,null`,
     );
     return data;
   });
   const { data: cast, isLoading: castLoading } = useQuery<ICast[]>("cast", async () => {
-    const { data } = await api.get(`/tv/${id}/credits`);
+    const { data } = await api.get(`/${mediaType}/${id}/credits`);
     return data.cast;
   });
 
@@ -41,4 +46,4 @@ const Serie = () => {
   );
 };
 
-export default Serie;
+export default Media;

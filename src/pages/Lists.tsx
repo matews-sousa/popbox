@@ -1,28 +1,37 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useQuery } from "react-query";
 import { AiOutlineClose } from "react-icons/ai";
 import CardList from "../components/CardList";
 import FiltersButton from "../components/FiltersButton";
 import api from "../lib/api";
+import { IMedia } from "../types/IMedia";
+import ReactPaginate from "react-paginate";
+
+interface PaginatedMedia {
+  page: number;
+  results: IMedia[];
+  total_pages: number;
+  total_results: number;
+}
 
 const Lists = () => {
   const { mediaType } = useParams<{ mediaType: "movie" | "tv" }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [type, setType] = useState("popular");
+  const pageParam = searchParams.get("page");
+  const [page, setPage] = useState(pageParam ? parseInt(pageParam) : 1);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-  const { data: popular, fetchNextPage } = useInfiniteQuery(
-    [mediaType, type, selectedGenres],
-    async ({ pageParam = 1 }) => {
+  const { data: popular } = useQuery<PaginatedMedia>({
+    queryKey: [mediaType, type, selectedGenres, page],
+    queryFn: async () => {
       const { data } = await api.get(
-        `/${mediaType}/${type}?page=${pageParam}&with_genres=${selectedGenres}`,
+        `/${mediaType}/${type}?page=${page}&with_genres=${selectedGenres}`,
       );
       return data;
     },
-    {
-      getNextPageParam: (lastPage, allPages) => allPages.length + 1,
-    },
-  );
+    keepPreviousData: true,
+  });
   const { data: genres } = useQuery<
     {
       id: number;
@@ -32,7 +41,6 @@ const Lists = () => {
     const { data } = await api.get(`/genre/${mediaType}/list`);
     return data.genres;
   });
-  const { ref, inView } = useInView();
 
   const handleGenreClick = (genreId: number) => {
     if (selectedGenres.includes(genreId)) {
@@ -41,12 +49,6 @@ const Lists = () => {
       setSelectedGenres([...selectedGenres, genreId]);
     }
   };
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView]);
 
   return (
     <>
@@ -94,8 +96,36 @@ const Lists = () => {
               </div>
             ))}
         </div>
-        {popular && <CardList data={popular} type={mediaType} />}
-        <div className="w-full h-44" ref={ref}></div>
+        {popular && (
+          <>
+            <CardList data={popular?.results} type={mediaType} />
+            <div className="flex justify-center mt-12">
+              <ReactPaginate
+                breakLabel={"..."}
+                breakClassName={"btn btn-disabled"}
+                previousLabel={"«"}
+                nextLabel={"»"}
+                onPageChange={(data) => {
+                  setSearchParams({ page: String(data.selected + 1) });
+                  setPage(data.selected + 1);
+                }}
+                pageRangeDisplayed={window.innerWidth > 600 ? 2 : 1}
+                pageCount={Math.min(popular.total_pages, 500)}
+                marginPagesDisplayed={1}
+                containerClassName="btn-group"
+                pageClassName="btn p-0"
+                pageLinkClassName="px-4 h-full flex items-center justify-center"
+                previousClassName="btn p-0"
+                previousLinkClassName="px-4 h-full flex items-center justify-center"
+                nextClassName="btn p-0"
+                nextLinkClassName="px-4 h-full flex items-center justify-center"
+                activeClassName="btn-active"
+                disabledClassName="btn-disabled"
+                forcePage={page - 1}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

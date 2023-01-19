@@ -41,6 +41,7 @@ const Home = () => {
       getNextPageParam: (lastPage, allPages) => allPages.length + 1,
     },
   );
+  console.log(popular);
   const { data: nowPlaying, isLoading: isLoadingNowPlaying } = useQuery("now_playing", async () => {
     const { data } = await api.get("/movie/now_playing");
     return data;
@@ -79,7 +80,7 @@ const Home = () => {
         </Swiper>
       </div>
       <div className="pt-[550px]">
-        <CardList data={popular} />
+        <CardList data={popular?.pages[0].results} />
 
         <div className="w-full h-44" ref={ref}></div>
       </div>

@@ -3,7 +3,6 @@ import api from "../lib/api";
 import { IMovie } from "../types/IMovie";
 import Loader from "../components/Loader";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { Autoplay } from "swiper";
 import MovieInfo from "../components/MovieInfo";
 import { Link } from "react-router-dom";

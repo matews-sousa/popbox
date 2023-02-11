@@ -49,6 +49,10 @@ const Details = ({ data, cast }: Props) => {
     } else {
       document.body.style.overflow = "auto";
     }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   return (
